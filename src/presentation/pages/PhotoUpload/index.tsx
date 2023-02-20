@@ -26,15 +26,19 @@ export const PhotoUpload: React.FC<Props> = ({ sendImage }) => {
     event.preventDefault();
     if (file) {
       await sendImage({ file, description });
+      setFile(null);
+      setFileUrl(null);
+      setDescription("");
     }
   }, [file, description]);
 
+  const isSubmitDisabled = !file || !description;
+
   return (
     <form onSubmit={handleSubmit}>
-      <input type="file" onChange={handleFileChange} />
+      <input type="file" onChange={handleFileChange} required />
       <input type="text" value={description} onChange={handleDescriptionChange} />
-      <button type="submit">Enviar</button>
+      <button type="submit" disabled={isSubmitDisabled}>Enviar</button>
     </form>
-  )
-
+  );
 };
